@@ -1,8 +1,8 @@
 <img src="https://raw.githubusercontent.com/Carlos-93/react-weather-map/main/src/images/react.png" width="300">
 
-# Welcome to my Pokedex React
+# Welcome to my Pokedex in React
 
-This project is a weather application developed with the React framework, designed to demonstrate how the capabilities of React can be used in conjunction with third-party APIs to create dynamic and reactive web applications. Here you will find how to configure and run the project locally, as well as a basic guide to contributing to it.
+This project is a Pokedex developed using React, designed to demonstrate how the capabilities of React can be leveraged to build interactive and dynamic web applications. Use PokeAPI, a free and open source Pokémon RESTful API, to get real-time data on Pokémon, their stats, abilities, and more. Here you will find how to configure and run the project locally, as well as a basic guide to contributing to it.
 
 ## Available Scripts
 
