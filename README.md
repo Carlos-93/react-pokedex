@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+<img src="https://raw.githubusercontent.com/Carlos-93/react-weather-map/main/src/images/react.png" width="300">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Welcome to my WeatherApp React
+
+This project is a weather application developed with the React framework, designed to demonstrate how the capabilities of React can be used in conjunction with third-party APIs to create dynamic and reactive web applications. Here you will find how to configure and run the project locally, as well as a basic guide to contributing to it.
 
 ## Available Scripts
 
