@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Carlos-93/react-weather-map/main/src/images/react.png" width="300">
 
-# Welcome to my WeatherApp React
+# Welcome to my Pokedex React
 
 This project is a weather application developed with the React framework, designed to demonstrate how the capabilities of React can be used in conjunction with third-party APIs to create dynamic and reactive web applications. Here you will find how to configure and run the project locally, as well as a basic guide to contributing to it.
 
