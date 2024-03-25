@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import PokemonSearch from './components/PokemonSearch';
 import Pokedex from './components/Pokedex';
-import './styles/App.css';
 import ErrorImage from './img/error.gif';
 import LoadingImage from './img/loading.gif';
+import './styles/App.css';
 
 // Principal Function component 
-function App() {
+export default function App() {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  // Function async to search a Pokémon
   async function handleSearch(query) {
     setLoading(true);
     setError(false);
@@ -41,4 +42,3 @@ function App() {
     </div>
   );
 }
-export default App;
