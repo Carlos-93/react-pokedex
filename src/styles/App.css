@@ -1,10 +1,14 @@
 body {
-  background-image: url('../img/pokemon.png');
+  background-image: url('/src/img/pokemon.png');
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 98vh;
+  font-family: 'Roboto', sans-serif;
 }
 
 #app {
@@ -12,29 +16,28 @@ body {
   flex-direction: column;
   border: 5px solid #000;
   background-color: #c00;
-  margin: 8% auto;
-  width: 20%;
-  padding: 20px;
+  width: 22rem;
+  padding: 1.25rem;
   border-radius: 10px;
 }
 
 .search-bar {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-  gap: 1%;
+  margin-top: 1.25em;
+  gap: 0.5em;
 }
 
 .search-input {
   text-align: center;
-  width: 150px;
+  width: 15rem;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #000;
 }
 
 .search-button {
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   background-color: #ffbb00;
@@ -51,6 +54,7 @@ body {
   font-size: 17px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   color: #fff;
   height: 449px;
@@ -58,9 +62,13 @@ body {
   padding: 20px;
 }
 
+.pokemon-card p {
+  font-size: 20px;
+  margin: 0.8em 0;
+}
+
 .pokemon-image {
-  width: 150px;
-  margin: -2% auto;
+  width: 9rem;
   display: block;
 }
 
@@ -78,11 +86,78 @@ body {
 
 .pokemon-stats {
   list-style-type: none;
-  margin-top: 5%;
-  margin-right: 10%;
   text-align: center;
 }
 
 .pokemon-stats li {
-  margin-bottom: 8px;
+  margin-bottom: 0.6em;
+}
+
+.footer {
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 1.25em;
+  color: #fff;
+}
+
+ul {
+  padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    background-image: url('/src/img/background.jpg');
+  }
+
+  #app {
+    width: 18rem;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .search-input {
+    width: 93%;
+  }
+
+  .search-button {
+    width: 40%;
+
+  }
+
+  .pokemon-card {
+    font-size: 16px;
+    height: 420px;
+  }
+
+  .pokemon-card p {
+    font-size: 19px;
+  }
+
+  .pokemon-name {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #app {
+    width: 15rem;
+  }
+
+  .pokemon-card {
+    font-size: 15px;
+    height: 400px;
+  }
+
+  .pokemon-card p {
+    font-size: 18px;
+  }
+
+  .pokemon-name {
+    font-size: 20px;
+  }
 }

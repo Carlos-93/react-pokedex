@@ -4,6 +4,7 @@ import PokemonSearch from './components/PokemonSearch';
 import Pokedex from './components/Pokedex';
 import ErrorImage from './img/error.gif';
 import LoadingImage from './img/loading.gif';
+import Footer from './components/Footer';
 import './styles/App.css';
 
 // Principal Function component 
@@ -39,6 +40,7 @@ export default function App() {
       {error && !loading && <img className='loading-error-image' src={ErrorImage} alt="Error buscando Pokémon" />}
       {pokemon && !loading && !error && <Pokedex pokemon={pokemon} errorImage={ErrorImage} />}
       <PokemonSearch onSearch={handleSearch} />
+      <Footer />
     </div>
   );
 }

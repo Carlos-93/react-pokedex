@@ -17,8 +17,8 @@ function PokemonSearch({ onSearch }) {
 
     return (
         <form onSubmit={handleSubmit} className="search-bar">
-            <input type="text" value={inputValue} onChange={handleInputChange} placeholder="Buscar Pokémon" className="search-input" />
-            <button type="submit" className="search-button">Buscar Pokemon</button>
+            <input type="text" value={inputValue} onChange={handleInputChange} placeholder="Introduce el ID o Name del Pokemon" className="search-input" />
+            <button type="submit" className="search-button">Buscar</button>
         </form>
     );
 }

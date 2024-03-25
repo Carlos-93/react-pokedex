@@ -18,7 +18,7 @@ function PokemonCard({ pokemon, errorImage }) {
         <div className='pokemon-card'>
             <PokemonImage imageUrl={pokemon.sprites.front_default} />
             <PokemonName name={pokemon.name} />
-            <strong><p>#{pokemon.id}</p></strong>
+            <strong><p># {pokemon.id}</p></strong>
             <PokemonTypes types={pokemon.types} />
             <PokemonStats stats={pokemon.stats} />
         </div>
