@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-image: url('/src/img/pokemon.png');
   background-size: 100vw 100vh;
@@ -7,8 +12,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 97vh;
-  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
 }
 
 #app {
@@ -94,7 +98,7 @@ body {
 }
 
 .footer {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   text-align: center;
   margin-top: 1.25em;
   color: #fff;
