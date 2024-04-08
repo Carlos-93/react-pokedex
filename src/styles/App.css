@@ -5,15 +5,14 @@
 
 body {
   background-image: url('/src/img/pokemon.png');
-  background-size: cover;
+  background-size: 100vw 100vh;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  height: auto;
+  height: 100vh;
 }
 
 #app {
@@ -24,7 +23,6 @@ body {
   width: 22rem;
   padding: 1.25rem;
   border-radius: 10px;
-  box-sizing: border-box;
 }
 
 .search-bar {
