@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/Carlos-93/react-weather-map/main/src/img/react.png" width="300"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Carlos-93/react-weather-map/main/src/img/react.png" width="30%"></p>
 
 # Welcome to my Pokedex in React
 
