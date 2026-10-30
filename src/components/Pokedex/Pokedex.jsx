@@ -1,28 +1,23 @@
-import React from 'react';
-import PokemonImage from './PokemonImage';
-import PokemonName from './PokemonName';
-import PokemonTypes from './PokemonTypes';
-import PokemonStats from './PokemonStats';
+import styles from './Pokedex.module.css';
 
-// Function component to show the pokemon card
-function PokemonCard({ pokemon, errorImage }) {
-    if (!pokemon || !pokemon.sprites) {
-        return (
-            <div className='pokemon-card'>
-                <img className='loading-error-image' src={errorImage} alt="Error" />
-            </div>
-        );
-    }
-
+export default function Pokedex({ pokemon }) {
     return (
-        <div className='pokemon-card'>
-            <PokemonImage imageUrl={pokemon.sprites.front_default} />
-            <PokemonName name={pokemon.name} />
-            <strong><p># {pokemon.id}</p></strong>
-            <PokemonTypes types={pokemon.types} />
-            <PokemonStats stats={pokemon.stats} />
+        <div className={styles.card}>
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} className={styles.image} />
+            <h1 className={styles.name}>{pokemon.name.toUpperCase()}</h1>
+            <p><strong># {pokemon.id}</strong></p>
+
+            <div className={styles.types}>
+                <span><strong>Type: </strong>{pokemon.types.map(({ type }) => type.name).join(', ')}</span>
+            </div>
+
+            <ul className={styles.stats}>
+                {pokemon.stats.map(({ stat, base_stat }) => (
+                    <li key={stat.name}>
+                        <strong>{stat.name}: </strong>{base_stat}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
-
-export default PokemonCard;

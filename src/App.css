@@ -4,7 +4,7 @@
 }
 
 body {
-  background-image: url('/src/img/pokemon.png');
+  background-image: url('./assets/images/pokemon.png');
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
   background-position: center;
@@ -25,143 +25,18 @@ body {
   border-radius: 10px;
 }
 
-.search-bar {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.25em;
-  gap: 0.5em;
-}
-
-.search-input {
-  text-align: center;
-  width: 15rem;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #000;
-}
-
-.search-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ffbb00;
-  color: #000000;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.search-button:hover {
-  background-color: #ffd664;
-}
-
-.pokemon-card {
-  font-size: 17px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  height: 449px;
-  background-color: #350000;
-  padding: 20px;
-}
-
-.pokemon-card p {
-  font-size: 20px;
-  margin: 0.8em 0;
-}
-
-.pokemon-image {
-  width: 9rem;
-  display: block;
-}
-
-.pokemon-name {
-  font-size: 24px;
-  margin-bottom: -5%;
-  text-align: center;
-}
-
-.pokemon-types {
-  display: flex;
-  justify-content: center;
-  list-style-type: none;
-}
-
-.pokemon-stats {
-  list-style-type: none;
-  text-align: center;
-}
-
-.pokemon-stats li {
-  margin-bottom: 0.6em;
-}
-
-.footer {
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 1.25em;
-  color: #fff;
-}
-
-ul {
-  padding: 0;
-}
-
 @media screen and (max-width: 768px) {
   body {
-    background-image: url('/src/img/background.jpg');
+    background-image: url('./assets/images/background.jpg');
   }
 
   #app {
     width: 18rem;
-  }
-
-  .search-bar {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-  }
-
-  .search-input {
-    width: 93%;
-  }
-
-  .search-button {
-    width: 40%;
-
-  }
-
-  .pokemon-card {
-    font-size: 16px;
-    height: 420px;
-  }
-
-  .pokemon-card p {
-    font-size: 19px;
-  }
-
-  .pokemon-name {
-    font-size: 22px;
   }
 }
 
 @media screen and (max-width: 576px) {
   #app {
     width: 15rem;
-  }
-
-  .pokemon-card {
-    font-size: 15px;
-    height: 400px;
-  }
-
-  .pokemon-card p {
-    font-size: 18px;
-  }
-
-  .pokemon-name {
-    font-size: 20px;
   }
 }
