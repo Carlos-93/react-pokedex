@@ -9,7 +9,7 @@ export default function Search({ onSearch }) {
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <input type="text" name="pokemon" placeholder="Introduce el ID o Name del Pokemon" className={styles.input} />
+            <input type="text" name="pokemon" aria-label="Nombre o número del Pokémon" placeholder="Nombre o número del Pokémon" className={styles.input} />
             <button type="submit" className={styles.button}>Buscar</button>
         </form>
     );

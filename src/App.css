@@ -4,7 +4,7 @@
 }
 
 body {
-  background-image: url('./assets/images/pokemon.png');
+  background-image: url('./assets/images/pokemon.jpg');
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
   background-position: center;
@@ -25,7 +25,7 @@ body {
   border-radius: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
   body {
     background-image: url('./assets/images/background.jpg');
   }

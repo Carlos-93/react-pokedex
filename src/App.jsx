@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 // Components
 import Search from './components/Search/Search';
 import Pokedex from './components/Pokedex/Pokedex';
@@ -13,23 +13,27 @@ export default function App() {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const controller = useRef(null);
 
   async function handleSearch(query) {
+    // Cancel the previous search so a slow response can't overwrite a newer one
+    controller.current?.abort();
+    const { signal } = (controller.current = new AbortController());
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(query)}`);
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(query)}`, { signal });
       if (!response.ok) throw new Error(`PokeAPI ${response.status}`);
       setPokemon(await response.json());
     } catch {
+      if (signal.aborted) return;
       setError(true);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   return (
-    <div id="app">
+    <div id="app" aria-live="polite">
       {loading && <img src={loadingImage} alt="Cargando..." />}
       {error && !loading && <img src={errorImage} alt="Error buscando Pokémon" />}
       {pokemon && !loading && !error && <Pokedex pokemon={pokemon} />}
