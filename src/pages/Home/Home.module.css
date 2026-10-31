@@ -7,6 +7,41 @@
   color: var(--muted);
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Same tint as TypeBadge, bigger for touch; the active one gets a stronger tint and a ring */
+.chip {
+  padding: 0.3rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: color-mix(in srgb, var(--type-color, var(--muted)) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--type-color, var(--muted)) 50%, transparent);
+  border-radius: 999px;
+}
+
+.chip:hover {
+  border-color: var(--type-color, var(--muted));
+}
+
+.chip[aria-current='true'] {
+  background: color-mix(in srgb, var(--type-color, var(--muted)) 45%, transparent);
+  border-color: var(--type-color, var(--muted));
+  box-shadow: 0 0 0 1px var(--type-color, var(--muted));
+}
+
+.empty {
+  padding-block: 3rem;
+  text-align: center;
+  color: var(--muted);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));

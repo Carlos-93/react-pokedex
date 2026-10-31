@@ -1,10 +1,10 @@
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { createMemoryRouter, RouterProvider } from 'react-router';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import { routes } from './routes';
 
 const API = 'https://pokeapi.co/api/v2';
 const list = [
-  ...Array.from({ length: 30 }, (_, i) => ({ name: `pokemon-${i + 1}`, url: `${API}/pokemon/${i + 1}/` })),
+  ...Array.from({ length: 30 }, (_, i) => ({ name: i ? `pokemon-${i + 1}` : 'butterfree', url: `${API}/pokemon/${i + 1}/` })),
   { name: 'pokemon-mega', url: `${API}/pokemon/10001/` }, // alternate form, must be hidden
 ];
 // flying is fetched before bug, so slot order must win over request order
@@ -32,8 +32,10 @@ function fakeFetch(url) {
 beforeEach(() => vi.stubGlobal('fetch', vi.fn(async (url) => fakeFetch(url))));
 afterEach(() => vi.unstubAllGlobals());
 
+// Browser router, not memory: Search reads window.location
 function renderAt(url) {
-  const router = createMemoryRouter(routes, { initialEntries: [url] });
+  window.history.replaceState(null, '', url);
+  const router = createBrowserRouter(routes);
   render(<RouterProvider router={router} />);
   return router;
 }
@@ -49,6 +51,8 @@ test('lists Pokémon by pages without alternate forms', async () => {
 
   fireEvent.click(screen.getByRole('link', { name: 'Siguiente' }));
   expect(await screen.findByText('Página 2 de 2')).toBeInTheDocument();
+  // focus moves in an effect, which can run after the new page is already on screen
+  await waitFor(() => expect(screen.getByRole('heading', { level: 1 })).toHaveFocus());
   expect(screen.getAllByRole('listitem')).toHaveLength(6);
   expect(screen.queryByText('pokemon-mega')).not.toBeInTheDocument();
 });
@@ -58,20 +62,62 @@ test('clamps an out of range page', async () => {
   expect(await screen.findByText('Página 2 de 2')).toBeInTheDocument();
 });
 
-test('search trims the query, ignores empty ones and opens the detail page', async () => {
-  const router = renderAt('/');
-  await screen.findByText('30 Pokémon');
+test('search filters by name or number from any page without losing focus', async () => {
+  const router = renderAt('/pokemon/pikachu');
+  await screen.findByRole('heading', { name: 'pikachu' });
   const input = screen.getByRole('searchbox');
-  const button = screen.getByRole('button', { name: 'Buscar' });
+  input.focus();
 
-  fireEvent.change(input, { target: { value: '   ' } });
-  await act(async () => fireEvent.click(button));
-  expect(router.state.location.pathname).toBe('/');
+  fireEvent.change(input, { target: { value: ' Butter' } });
+  expect(await screen.findByText('1 Pokémon')).toBeInTheDocument();
+  expect(router.state).toMatchObject({ location: { pathname: '/' }, historyAction: 'PUSH' });
+  expect(input).toHaveValue(' Butter');
 
-  fireEvent.change(input, { target: { value: ' Pikachu ' } });
-  fireEvent.click(button);
-  expect(await screen.findByRole('heading', { level: 1, name: 'pikachu' })).toBeInTheDocument();
-  expect(router.state.location.pathname).toBe('/pokemon/pikachu');
+  // butterfree has no "1" in its name, so it only matches by its id
+  fireEvent.change(input, { target: { value: '1' } });
+  expect(await screen.findByText('12 Pokémon')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'butterfree' })).toBeInTheDocument();
+  expect(router.state.historyAction).toBe('REPLACE');
+  expect(input).toHaveFocus();
+});
+
+test('typing fast from another page adds a single history entry', async () => {
+  const router = renderAt('/pokemon/pikachu');
+  await screen.findByRole('heading', { name: 'pikachu' });
+  const input = screen.getByRole('searchbox');
+
+  // Next key right after the router commits, before React would render a transition
+  const unsubscribe = router.subscribe((state) => {
+    if (state.location.pathname !== '/') return;
+    unsubscribe();
+    queueMicrotask(() => fireEvent.change(input, { target: { value: 'bu' } }));
+  });
+  fireEvent.change(input, { target: { value: 'b' } });
+
+  await waitFor(() => expect(router.state.location.search).toBe('?q=bu'));
+  expect(router.state.historyAction).toBe('REPLACE');
+});
+
+test('type filter, pagination and search keep each other in the URL', async () => {
+  renderAt('/?q=pokemon');
+  expect(await screen.findByText('29 Pokémon')).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('link', { name: 'Siguiente' }));
+  expect(await screen.findByText('Página 2 de 2')).toBeInTheDocument();
+  expect(screen.getAllByRole('listitem')).toHaveLength(5);
+
+  // butterfree is the only flying one and does not match "pokemon"
+  fireEvent.click(screen.getByRole('link', { name: 'Volador' }));
+  expect(await screen.findByText('Ningún Pokémon coincide con la búsqueda.')).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('link', { name: 'Todos' }));
+  expect(await screen.findByText('29 Pokémon')).toBeInTheDocument();
+
+  // clearing the search keeps the type: butterfree is the only bug one
+  fireEvent.click(screen.getByRole('link', { name: 'Bicho' }));
+  expect(await screen.findByText('0 Pokémon')).toBeInTheDocument();
+  fireEvent.change(screen.getByRole('searchbox'), { target: { value: '' } });
+  expect(await screen.findByText('1 Pokémon')).toBeInTheDocument();
 });
 
 test.each(['/pokemon/missingno', '/no/existe'])('%s shows the not found page inside the layout', async (url) => {

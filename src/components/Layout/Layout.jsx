@@ -9,8 +9,11 @@ export default function Layout() {
     const location = useLocation();
 
     // After client-side navigation, move focus to the new page heading so screen readers announce it
+    // Not while typing in the search box, which navigates on every key
     useEffect(() => {
-        if (location.key !== 'default') document.querySelector('main h1')?.focus({ preventScroll: true });
+        if (location.key !== 'default' && document.activeElement?.tagName !== 'INPUT') {
+            document.querySelector('main h1')?.focus({ preventScroll: true });
+        }
     }, [location.key]);
 
     return (

@@ -1,19 +1,33 @@
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router';
 import styles from './Search.module.css';
 
 export default function Search() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const q = searchParams.get('q') ?? '';
+    // Local state so typing never waits for the navigation; the URL keeps the raw text
+    const [query, setQuery] = useState(q);
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        const query = new FormData(event.currentTarget).get('pokemon').trim().toLowerCase();
-        if (query) navigate(`/pokemon/${encodeURIComponent(query)}`);
+    // Follow q when it changes without typing: back/forward, links, the logo
+    useEffect(() => setQuery(q), [q]);
+
+    function handleChange(event) {
+        const { value } = event.target;
+        setQuery(value);
+        // window.location changes as soon as the router commits; useLocation/useSearchParams
+        // can still be a render behind when typing fast, which would push extra history entries
+        const params = new URLSearchParams(window.location.search);
+        if (value) params.set('q', value);
+        else params.delete('q');
+        params.delete('page');
+        // On the list each key replaces the history entry; from other pages it is a new one
+        navigate(`/?${params}`, { replace: window.location.pathname === '/' });
     }
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form} role="search">
-            <input type="search" name="pokemon" aria-label="Nombre o número del Pokémon" placeholder="Nombre o número" className={styles.input} />
-            <button type="submit" className={styles.button}>Buscar</button>
+        <form role="search" onSubmit={(event) => event.preventDefault()} className={styles.form}>
+            <input type="search" name="q" value={query} onChange={handleChange} aria-label="Buscar Pokémon por nombre o número" placeholder="Nombre o número" className={styles.input} />
         </form>
     );
 }

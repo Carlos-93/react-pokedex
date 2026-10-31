@@ -1,7 +1,6 @@
 .form {
   display: flex;
   flex: 1 1 18rem;
-  gap: 0.5rem;
   max-width: 28rem;
 }
 
@@ -14,19 +13,4 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 999px;
-}
-
-.button {
-  padding: 0.55rem 1.25rem;
-  font: inherit;
-  font-weight: 600;
-  color: #fff;
-  background: var(--accent);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.button:hover {
-  filter: brightness(1.1);
 }
