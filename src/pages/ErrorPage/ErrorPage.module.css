@@ -1,0 +1,16 @@
+.error {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding-block: 4rem;
+  text-align: center;
+}
+
+.link {
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: var(--accent);
+  border-radius: 999px;
+}

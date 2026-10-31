@@ -1,0 +1,51 @@
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#f5f6f8, #111318);
+  --surface: light-dark(#ffffff, #1b1e25);
+  --text: light-dark(#1c1e24, #e7e9ee);
+  --muted: light-dark(#5d6470, #9ba2ae);
+  --border: light-dark(#e3e6eb, #2b303a);
+  --accent: #e3350d;
+  --radius: 14px;
+  --shadow: 0 8px 24px light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.45));
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Page headings only get focus from route changes (see Layout); they are not interactive */
+[tabindex='-1']:focus {
+  outline: none;
+}

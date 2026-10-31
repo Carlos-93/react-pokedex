@@ -1,0 +1,21 @@
+// PokeAPI type names with their Spanish label and usual color
+export const TYPES = {
+  normal: { label: 'Normal', color: '#a8a77a' },
+  fire: { label: 'Fuego', color: '#ee8130' },
+  water: { label: 'Agua', color: '#6390f0' },
+  electric: { label: 'Eléctrico', color: '#f7d02c' },
+  grass: { label: 'Planta', color: '#7ac74c' },
+  ice: { label: 'Hielo', color: '#96d9d6' },
+  fighting: { label: 'Lucha', color: '#c22e28' },
+  poison: { label: 'Veneno', color: '#a33ea1' },
+  ground: { label: 'Tierra', color: '#e2bf65' },
+  flying: { label: 'Volador', color: '#a98ff3' },
+  psychic: { label: 'Psíquico', color: '#f95587' },
+  bug: { label: 'Bicho', color: '#a6b91a' },
+  rock: { label: 'Roca', color: '#b6a136' },
+  ghost: { label: 'Fantasma', color: '#735797' },
+  dragon: { label: 'Dragón', color: '#6f35fc' },
+  dark: { label: 'Siniestro', color: '#705746' },
+  steel: { label: 'Acero', color: '#b7b7ce' },
+  fairy: { label: 'Hada', color: '#d685ad' },
+};

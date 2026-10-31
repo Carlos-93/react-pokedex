@@ -1,6 +1,7 @@
 .footer {
-  font-size: 0.9rem;
+  padding: 1.5rem 1rem;
+  font-size: 0.875rem;
   text-align: center;
-  margin-top: 1.25em;
-  color: #fff;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
 }

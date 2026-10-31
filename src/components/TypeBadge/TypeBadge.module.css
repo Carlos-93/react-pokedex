@@ -1,0 +1,9 @@
+/* Tinted background keeps the text readable on light and dark themes, whatever the type color */
+.badge {
+  padding: 0.1em 0.75em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--type-color, var(--muted)) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--type-color, var(--muted)) 60%, transparent);
+  border-radius: 999px;
+}

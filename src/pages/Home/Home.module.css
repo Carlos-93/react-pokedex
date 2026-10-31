@@ -1,0 +1,39 @@
+.title {
+  font-size: 1.75rem;
+}
+
+.total {
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: var(--muted);
+}
+
+.pagination a {
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.pagination a:hover {
+  border-color: var(--accent);
+}
