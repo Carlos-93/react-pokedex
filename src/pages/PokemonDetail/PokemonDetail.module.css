@@ -18,11 +18,9 @@
   overflow: hidden;
   color: var(--on-type);
   background: var(--type-color, var(--surface));
-  background: linear-gradient(
-    150deg,
-    oklch(from var(--type-color, #a8a8a8) clamp(0.86, l, 0.94) c h),
-    oklch(from var(--type-color, #a8a8a8) clamp(0.76, l, 0.86) c h)
-  );
+  background: linear-gradient(150deg,
+      oklch(from var(--type-color, #a8a8a8) clamp(0.86, l, 0.94) c h),
+      oklch(from var(--type-color, #a8a8a8) clamp(0.76, l, 0.86) c h));
   border-radius: var(--radius);
 }
 
@@ -42,6 +40,7 @@
 .id {
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+  opacity: 0.5;
 }
 
 .name {
@@ -116,6 +115,32 @@
 
 .panel h2 {
   font-size: 1.3rem;
+}
+
+.panel h3 {
+  font-size: 1.05rem;
+}
+
+.abilities {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.abilities p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.hidden {
+  margin-inline-start: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
 
 .wide {
@@ -201,18 +226,24 @@
   list-style: none;
 }
 
+/* Same height for the evolutions of one stage, whatever the length of their condition */
 .stages ul {
   flex-wrap: wrap;
+  align-items: stretch;
 }
 
-.stages > li {
+.stages ul>li {
+  display: flex;
+}
+
+.stages>li {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
 /* Arrow between stages; the empty alt text keeps screen readers from reading it */
-.stages > li + li::before {
+.stages>li+li::before {
   content: '→';
   content: '→' / '';
   font-size: 1.5rem;
@@ -221,12 +252,13 @@
 
 /* Phones: three stages do not fit side by side, so they go top to bottom */
 @media (width < 40rem) {
+
   .stages,
-  .stages > li {
+  .stages>li {
     flex-direction: column;
   }
 
-  .stages > li + li::before {
+  .stages>li+li::before {
     rotate: 90deg;
   }
 }
@@ -234,6 +266,7 @@
 .evolution {
   display: grid;
   justify-items: center;
+  align-content: start;
   width: 8rem;
   padding: 0.75rem;
   text-decoration: none;
@@ -266,4 +299,13 @@
 .evolution strong {
   font-weight: 600;
   text-transform: capitalize;
+}
+
+.evolution small {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--muted);
 }

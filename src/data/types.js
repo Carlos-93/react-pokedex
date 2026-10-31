@@ -1,4 +1,4 @@
-// PokeAPI type names with their Spanish label and usual color
+// Data for Pokémon types, including their labels and colors
 export const TYPES = {
   normal: { label: 'Normal', color: '#a8a77a' },
   fire: { label: 'Fuego', color: '#ee8130' },

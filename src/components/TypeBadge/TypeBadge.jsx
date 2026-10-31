@@ -1,4 +1,5 @@
 import { TYPES } from '../../data/types';
+// Styles
 import styles from './TypeBadge.module.css';
 
 export default function TypeBadge({ type }) {

@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigation } from 'react-router';
+import { useEffect } from 'react';
+// Components
 import Footer from '../Footer/Footer';
 import Search from '../Search/Search';
+// Styles
 import styles from './Layout.module.css';
 
 export default function Layout() {
@@ -23,9 +25,11 @@ export default function Layout() {
                 <NavLink to="/favoritos" className={styles.favorites}>Favoritos</NavLink>
                 <Search />
             </header>
+
             <main className={styles.main} aria-busy={navigation.state === 'loading'}>
                 <Outlet />
             </main>
+
             <Footer />
             <ScrollRestoration />
         </>

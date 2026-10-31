@@ -1,8 +1,12 @@
 import { Link, useLoaderData, useSearchParams } from 'react-router';
+// Components
+import PokemonCard from '../../components/PokemonCard/PokemonCard';
+// API
 import { getFavorites } from '../../api/favorites';
 import { getPokedex } from '../../api/pokeapi';
-import PokemonCard from '../../components/PokemonCard/PokemonCard';
+// Data
 import { TYPES } from '../../data/types';
+// Styles
 import styles from './Home.module.css';
 
 const PAGE_SIZE = 24;

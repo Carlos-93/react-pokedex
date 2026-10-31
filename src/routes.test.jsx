@@ -15,6 +15,10 @@ const pikachu = {
   sprites: { front_default: null, other: { 'official-artwork': { front_default: null } } },
   types: [{ type: { name: 'electric' } }],
   stats: [{ stat: { name: 'hp' }, base_stat: 35 }, { stat: { name: 'speed' }, base_stat: 90 }],
+  abilities: [
+    { ability: { name: 'static', url: `${API}/ability/9/` }, is_hidden: false },
+    { ability: { name: 'lightning-rod', url: `${API}/ability/31/` }, is_hidden: true },
+  ],
 };
 const es = (key, value) => ({ language: { name: 'es' }, [key]: value });
 const species = {
@@ -24,8 +28,14 @@ const species = {
   flavor_text_entries: [es('flavor_text', 'Antiguo.'), es('flavor_text', 'Se saludan\nuniendo\fsus colas.'), { language: { name: 'en' }, flavor_text: 'English.' }],
   evolution_chain: { url: `${API}/evolution-chain/10/` },
 };
-const stage = (name, id, ...evolves_to) => ({ species: { name, url: `${API}/pokemon-species/${id}/` }, evolves_to });
-const chain = { chain: stage('pichu', 172, stage('pikachu', 25, stage('raichu', 26))) };
+const stage = (name, id, evolution_details, ...evolves_to) => ({ species: { name, url: `${API}/pokemon-species/${id}/` }, evolution_details, evolves_to });
+const chain = {
+  chain: stage('pichu', 172, [], stage('pikachu', 25, [{ trigger: { name: 'level-up' }, min_happiness: 220 }], stage('raichu', 26, [
+    // one detail per game: only the current one (is_default) is shown
+    { trigger: { name: 'level-up' }, location: { name: 'old-place' } },
+    { trigger: { name: 'use-item' }, item: { name: 'thunder-stone', url: `${API}/item/83/` }, is_default: true },
+  ])))
+};
 let flakyCalls = 0;
 
 const ok = (json) => ({ ok: true, json: async () => json });
@@ -37,6 +47,9 @@ function fakeFetch(url) {
   if (path === '/pokemon/pikachu') return ok(pikachu);
   if (path === '/pokemon-species/25/') return ok(species);
   if (path === '/evolution-chain/10/') return ok(chain);
+  if (path === '/ability/9/') return ok({ names: [es('name', 'Electricidad Estática')], flavor_text_entries: [es('flavor_text', 'Puede paralizar\nal contacto.')] });
+  if (path === '/ability/31/') return ok({ names: [], flavor_text_entries: [] }); // no Spanish texts
+  if (path === '/item/83/') return ok({ names: [es('name', 'Piedra Trueno')] });
   // fails once with a server error, then works: a failed request must not stay cached
   if (path === '/pokemon/flaky') return ++flakyCalls === 1 ? { ok: false, status: 500 } : ok({ ...pikachu, name: 'flaky' });
   return { ok: false, status: 404 };
@@ -146,9 +159,17 @@ test('detail shows Spanish texts, size, stats and the evolution chain', async ()
   expect(screen.getByText('6 kg')).toBeInTheDocument();
   expect(screen.getByText('Total').nextSibling).toHaveTextContent('125');
 
+  // abilities in Spanish, or with the API name when there is no translation
+  const info = within(screen.getByRole('region', { name: 'Información' }));
+  expect(info.getByText('Electricidad Estática')).toBeInTheDocument();
+  expect(info.getByText('Puede paralizar al contacto.')).toBeInTheDocument();
+  expect(info.getByText('lightning-rod').nextSibling).toHaveTextContent('Oculta');
+
   const evolutions = within(screen.getByRole('region', { name: 'Evoluciones' })).getAllByRole('link');
   expect(evolutions.map((link) => link.getAttribute('href'))).toEqual(['/pokemon/172', '/pokemon/25', '/pokemon/26']);
   expect(evolutions[1]).toHaveAttribute('aria-current', 'page');
+  expect(evolutions[1]).toHaveTextContent('Subir de nivel con amistad alta');
+  expect(evolutions[2]).toHaveTextContent(/Raichu\s*Piedra Trueno$/i);
 });
 
 test('the heart on the detail page saves favorites for /favoritos', async () => {

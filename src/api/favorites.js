@@ -1,6 +1,6 @@
-// Favorite Pokémon ids, kept only in this browser
 const KEY = 'favorites';
 
+// Returns an array of favorite Pokémon IDs, or an empty array if none are stored
 export function getFavorites() {
   try {
     const ids = JSON.parse(localStorage.getItem(KEY));
@@ -10,6 +10,7 @@ export function getFavorites() {
   }
 }
 
+// Adds or removes a Pokémon ID from the favorites list, and saves it to localStorage
 export function setFavorite(id, favorite) {
   const ids = getFavorites().filter((other) => other !== id);
   if (favorite) ids.push(id);

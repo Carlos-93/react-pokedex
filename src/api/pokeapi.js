@@ -45,12 +45,15 @@ const getUrl = (url) => getJSON(url.slice(API.length));
 
 export const getSpecies = (pokemon) => getUrl(pokemon.species.url);
 
+// Any { name, url } reference inside another response: abilities, items, moves...
+export const getResource = ({ url }) => getUrl(url);
+
 // Evolution tree flattened by stage: [[eevee], [vaporeon, jolteon, ...]]
 export async function getEvolutions(species) {
   const { chain } = await getUrl(species.evolution_chain.url);
   const stages = [];
   (function add(node, depth) {
-    (stages[depth] ??= []).push({ id: idFromUrl(node.species.url), name: node.species.name });
+    (stages[depth] ??= []).push({ id: idFromUrl(node.species.url), name: node.species.name, details: node.evolution_details });
     node.evolves_to.forEach((next) => add(next, depth + 1));
   })(chain, 0);
   return stages;

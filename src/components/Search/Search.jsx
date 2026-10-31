@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
+import { useEffect, useState } from 'react';
+// Styles
 import styles from './Search.module.css';
 
 export default function Search() {
