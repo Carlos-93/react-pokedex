@@ -1,5 +1,6 @@
 /* Light shade of the primary type color: always light enough for the dark --on-type text */
 .card {
+  container-type: inline-size;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -46,8 +47,9 @@
   opacity: 0.5;
 }
 
+/* Scales with the card, so the longest names (Brambleghast, Crabominable) stay on one line on small phones */
 .name {
-  font-size: 1.2rem;
+  font-size: min(1.2rem, 13.5cqi);
   text-transform: capitalize;
   overflow-wrap: anywhere;
 }

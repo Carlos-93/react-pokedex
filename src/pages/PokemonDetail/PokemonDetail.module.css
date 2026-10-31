@@ -1,8 +1,33 @@
+/* At most 2 columns. Every panel is wide except the first four, which sit in two columns.
+   Narrower than 38rem, "Datos de la especie" grows so much taller than its neighbors that one column fits better */
 .detail {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(38rem, (100% - 1.25rem) / 2)), 1fr));
   gap: 1.25rem;
+}
+
+/* The loading spinner goes across both columns, like the hero and the wide panels */
+.detail>[role='status'] {
+  grid-column: 1 / -1;
+}
+
+/* Both columns get the height of the taller one, and the last panel of the shorter one grows,
+   so their bottom edges line up instead of leaving a hole */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.column> :last-child {
+  flex-grow: 1;
+  grid-template-rows: auto 1fr;
+}
+
+/* Grown stats spread their 7 rows instead of leaving the space empty at the bottom.
+   Not the damage factors: with only 2 rows they would sit at both ends */
+.column> :last-child>.stats {
+  align-content: space-between;
 }
 
 /* Same light type shade as PokemonCard, so the text on it is always dark */
@@ -49,6 +74,13 @@
   overflow-wrap: anywhere;
 }
 
+/* Form name on its own line under the Pokémon name, inside the heading */
+.form {
+  display: block;
+  font-size: 0.45em;
+  opacity: 0.75;
+}
+
 .genus {
   margin-top: 0.25rem;
   font-size: 1.1rem;
@@ -63,11 +95,18 @@
   font-size: 1.2rem;
 }
 
-.favorite {
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.favorite,
+.cry {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1.25rem;
   padding: 0.6rem 1.1rem;
   font: inherit;
   font-weight: 700;
@@ -79,11 +118,13 @@
   transition: background-color 0.2s;
 }
 
-.favorite:hover {
+.favorite:hover,
+.cry:hover {
   background: rgb(255 255 255 / 0.85);
 }
 
-.favorite::before {
+.favorite::before,
+.cry::before {
   content: '';
   width: 1.25rem;
   aspect-ratio: 1;
@@ -97,15 +138,27 @@
   scale: 1.15;
 }
 
+.cry::before {
+  background: currentColor;
+  mask-image: var(--volume);
+}
+
 .image {
   justify-self: center;
-  width: 100%;
+  /* Follows the screen, so on small phones it no longer fills the whole hero */
+  width: min(100%, 60vw);
   max-width: 22rem;
   filter: drop-shadow(0 12px 16px rgb(0 0 0 / 0.25));
 }
 
+/* The column may shrink below its content, so a long game name in the select cannot widen the page.
+   Container: the evolution chain picks its direction from the panel width, not the screen */
 .panel {
+  container-type: inline-size;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* A panel stretched to line up with its neighbor keeps its content at the top */
+  align-content: start;
   gap: 1rem;
   padding: 1.5rem;
   background: var(--surface);
@@ -153,13 +206,15 @@
   gap: 0.75rem;
 }
 
-.size div {
+.size div,
+.facts div {
   padding: 0.75rem 1rem;
   background: var(--bg);
   border-radius: calc(var(--radius) - 8px);
 }
 
-.size dt {
+.size dt,
+.facts dt {
   font-size: 0.85rem;
   color: var(--muted);
 }
@@ -167,6 +222,62 @@
 .size dd {
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 8rem), 1fr));
+  gap: 0.75rem;
+}
+
+.facts dd {
+  font-weight: 700;
+}
+
+/* Full width panel: the texts flow in columns, so lines stay short enough to read */
+.texts {
+  columns: 24rem;
+  column-gap: 2rem;
+}
+
+.texts div {
+  break-inside: avoid;
+}
+
+/* A top margin is dropped at the top of a column, so every column starts level */
+.texts div+div {
+  margin-block-start: 0.75rem;
+}
+
+.texts dt {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.defenses {
+  display: grid;
+  /* Rows stay at the top when the panel grows to line up with its neighbor */
+  align-content: start;
+  gap: 0.6rem;
+}
+
+.defenses div {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.defenses dt {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.defenses dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .stats {
@@ -177,7 +288,7 @@
 
 .stats div {
   display: grid;
-  grid-template-columns: 7.5rem 2.5rem 1fr;
+  grid-template-columns: 9.5rem 2.5rem 1fr;
   align-items: center;
   gap: 0.75rem;
 }
@@ -215,6 +326,30 @@
   font-weight: 800;
 }
 
+/* Narrow panel (small phones): the bar gets its own row instead of a few pixels,
+   and facts become label/value rows instead of one tall column of tiles */
+@container (width < 18.75rem) {
+  .stats div {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.3rem;
+  }
+
+  .stats div::after {
+    grid-column: 1 / -1;
+  }
+
+  .facts div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .facts dd {
+    text-align: right;
+  }
+}
+
 /* Stages stay in one row; a stage with many branches (Eevee) wraps inside itself */
 .stages,
 .stages ul {
@@ -232,10 +367,6 @@
   align-items: stretch;
 }
 
-.stages ul>li {
-  display: flex;
-}
-
 .stages>li {
   display: flex;
   align-items: center;
@@ -250,8 +381,8 @@
   color: var(--muted);
 }
 
-/* Phones: three stages do not fit side by side, so they go top to bottom */
-@media (width < 40rem) {
+/* Three cards and two arrows need about 47.5rem; in a narrower panel the stages go top to bottom */
+@container (width < 48rem) {
 
   .stages,
   .stages>li {
@@ -263,49 +394,167 @@
   }
 }
 
-.evolution {
+.card {
   display: grid;
-  justify-items: center;
   align-content: start;
-  width: 8rem;
+  gap: 0.5rem;
+  width: 14rem;
   padding: 0.75rem;
-  text-decoration: none;
   background: var(--bg);
   border: 2px solid transparent;
   border-radius: calc(var(--radius) - 6px);
   transition: border-color 0.2s, translate 0.2s;
 }
 
-.evolution:hover {
+.card:has(a:hover) {
   translate: 0 -3px;
   border-color: var(--border);
 }
 
-.evolution[aria-current='page'] {
+.card:has([aria-current='page']) {
   border-color: oklch(from var(--type-color, var(--accent)) 0.66 c h);
 }
 
-.evolution img {
-  width: 6rem;
+.card a {
+  display: grid;
+  justify-items: center;
+  text-decoration: none;
+}
+
+.card img {
+  width: min(6rem, 100%);
   aspect-ratio: 1;
 }
 
-.evolution span {
+.card a span {
   font-size: 0.8rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
 
-.evolution strong {
+.card strong {
   font-weight: 600;
+  text-align: center;
   text-transform: capitalize;
+  overflow-wrap: anywhere;
 }
 
-.evolution small {
-  margin-top: 0.35rem;
+.card details {
   font-size: 0.75rem;
+}
+
+.card summary {
   font-weight: 600;
-  line-height: 1.3;
-  text-align: center;
   color: var(--muted);
+  cursor: pointer;
+}
+
+.conditions {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+}
+
+/* A long label wraps inside its own column, so the value stays on the first line */
+.conditions div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.4rem;
+}
+
+.conditions dt {
+  color: var(--muted);
+}
+
+.conditions dd {
+  font-weight: 600;
+  text-align: right;
+}
+
+.card details .conditions {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Forms only show image and name: narrower than evolutions, two per row on phones */
+.cards .card {
+  width: min(10rem, (100% - 0.75rem) / 2);
+}
+
+/* Small enough that a phone breaks Mega-Charizard X after the hyphen, not before it.
+   Form names come written as they should look ("Forma de Alola"), unlike the API names of the evolutions.
+   Balanced lines: "Mega- / Charizard X" instead of a lone "X" on the second line */
+.cards strong {
+  font-size: 0.9rem;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+/* A form with no name in any language shows its API name, which starts in lowercase ("starter") */
+.form::first-letter,
+.cards strong::first-letter {
+  text-transform: uppercase;
+}
+
+.select {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.select select {
+  max-width: 100%;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.scroll {
+  max-height: 28rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 8px);
+}
+
+.table {
+  width: 100%;
+  font-size: 0.9rem;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.45rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Header stays visible while the table scrolls */
+.table th {
+  position: sticky;
+  top: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr:nth-child(even) {
+  background: var(--bg);
 }

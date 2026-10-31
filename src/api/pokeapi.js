@@ -17,7 +17,7 @@ function getJSON(path) {
   return cache.get(path);
 }
 
-const idFromUrl = (url) => Number(url.split('/').at(-2));
+export const idFromUrl = (url) => Number(url.split('/').at(-2));
 
 // Every Pokémon with its types from 19 small requests, instead of one request per Pokémon
 export async function getPokedex() {
@@ -47,6 +47,12 @@ export const getSpecies = (pokemon) => getUrl(pokemon.species.url);
 
 // Any { name, url } reference inside another response: abilities, items, moves...
 export const getResource = ({ url }) => getUrl(url);
+
+// A Pokémon with a single form gives it its own name (raichu-alola), so the forms list can look it up without the Pokémon
+export const getForm = (name) => getJSON(`/pokemon-form/${name}/`);
+
+// Evolution details give the gender as an id, not as a reference
+export const getGender = (id) => getJSON(`/gender/${id}/`);
 
 // Evolution tree flattened by stage: [[eevee], [vaporeon, jolteon, ...]]
 export async function getEvolutions(species) {

@@ -1,7 +1,68 @@
+/* The red top edge is a Pokéball's middle line, with its button in the center */
 .footer {
-  padding: 1.5rem 1rem;
-  font-size: 0.875rem;
-  text-align: center;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 2.5rem var(--gutter) 2rem;
+  font-size: 0.9rem;
   color: var(--muted);
-  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(circle, var(--surface) 0 32%, var(--accent) 34% 50%, var(--surface) 52%);
+  border: 4px solid var(--accent);
+  border-radius: 50%;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.brand::before {
+  content: '';
+  width: 1.2rem;
+  aspect-ratio: 1;
+  background: var(--accent);
+  mask: var(--pokeball) center / contain no-repeat;
+}
+
+/* Phones: one column under the centered button, so the text follows its axis */
+@media (width < 40rem) {
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+}
+
+.footer a {
+  font-weight: 700;
+  color: var(--text);
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: var(--accent);
 }
