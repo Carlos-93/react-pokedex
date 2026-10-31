@@ -22,6 +22,9 @@
   --shadow: 0 10px 30px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.5));
   /* Pokéball outline, used as a mask so each place gives it its own color */
   --pokeball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='8'%3E%3Cpath fill='black' stroke='none' d='M6.7 42a44 44 0 0 1 86.6 0H68.3a20 20 0 0 0-36.6 0z'/%3E%3Ccircle cx='50' cy='50' r='44'/%3E%3Cpath d='M6 50h26m36 0h26'/%3E%3Ccircle cx='50' cy='50' r='14'/%3E%3C/svg%3E");
+  /* Heart, filled and outlined (favorites) */
+  --heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E");
+  --heart-outline: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E");
   font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
 }

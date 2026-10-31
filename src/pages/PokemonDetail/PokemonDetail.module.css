@@ -64,6 +64,40 @@
   font-size: 1.2rem;
 }
 
+.favorite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--on-type);
+  background: rgb(255 255 255 / 0.6);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.favorite:hover {
+  background: rgb(255 255 255 / 0.85);
+}
+
+.favorite::before {
+  content: '';
+  width: 1.25rem;
+  aspect-ratio: 1;
+  background: var(--accent);
+  mask: var(--heart-outline) center / contain no-repeat;
+  transition: scale 0.2s;
+}
+
+.favorite[aria-pressed='true']::before {
+  mask-image: var(--heart);
+  scale: 1.15;
+}
+
 .image {
   justify-self: center;
   width: 100%;

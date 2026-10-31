@@ -1,4 +1,5 @@
 import { Link, useLoaderData, useSearchParams } from 'react-router';
+import { getFavorites } from '../../api/favorites';
 import { getPokedex } from '../../api/pokeapi';
 import PokemonCard from '../../components/PokemonCard/PokemonCard';
 import { TYPES } from '../../data/types';
@@ -6,18 +7,21 @@ import styles from './Home.module.css';
 
 const PAGE_SIZE = 24;
 
-export async function loader({ url }) {
+export async function loader({ url, favorites }) {
     const q = (url.searchParams.get('q') ?? '').trim().toLowerCase();
     const type = url.searchParams.get('type');
-    const results = (await getPokedex()).filter((p) =>
+    const results = (await getPokedex()).filter((p) => (!favorites || favorites.has(p.id)) &&
         (!type || p.types.includes(type)) && (!q || p.name.includes(q) || Number(q) === p.id));
     const pages = Math.ceil(results.length / PAGE_SIZE) || 1;
     const page = Math.min(Math.max(parseInt(url.searchParams.get('page'), 10) || 1, 1), pages);
-    return { page, pages, total: results.length, pokemon: results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) };
+    return { favorites: Boolean(favorites), page, pages, total: results.length, pokemon: results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) };
 }
 
+// /favoritos is the same list with its filters, limited to the ids saved in this browser
+export const favoritesLoader = (args) => loader({ ...args, favorites: new Set(getFavorites()) });
+
 export default function Home() {
-    const { page, pages, total, pokemon } = useLoaderData();
+    const { favorites, page, pages, total, pokemon } = useLoaderData();
     const [searchParams] = useSearchParams();
     const type = searchParams.get('type');
 
@@ -32,8 +36,9 @@ export default function Home() {
 
     return (
         <>
+            {favorites && <title>Favoritos | Pokédex</title>}
             <div className={styles.hero}>
-                <h1 className={styles.title} tabIndex={-1}>Pokédex Nacional</h1>
+                <h1 className={styles.title} tabIndex={-1}>{favorites ? 'Favoritos' : 'Pokédex Nacional'}</h1>
                 <p className={styles.total} aria-live="polite">{total} Pokémon</p>
 
                 <nav className={styles.filters} aria-label="Filtrar por tipo">
@@ -53,7 +58,9 @@ export default function Home() {
                     ))}
                 </ul>
             ) : (
-                <p className={styles.empty}>Ningún Pokémon coincide con la búsqueda.</p>
+                <p className={styles.empty}>
+                    {favorites ? 'Aún no hay favoritos aquí. Márcalos con el corazón en la ficha de cada Pokémon.' : 'Ningún Pokémon coincide con la búsqueda.'}
+                </p>
             )}
 
             {/* Empty spans keep "Página X de Y" centered on the first and last pages */}

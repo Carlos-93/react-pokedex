@@ -41,6 +41,33 @@
   rotate: 1turn;
 }
 
+/* Pushed right next to the search box; on phones the search wraps below */
+.favorites {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-inline-start: auto;
+  padding: 0.55rem 0.9rem;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background-color 0.2s;
+}
+
+.favorites::before {
+  content: '';
+  width: 1.1rem;
+  aspect-ratio: 1;
+  background: currentColor;
+  mask: var(--heart) center / contain no-repeat;
+}
+
+.favorites:hover,
+.favorites[aria-current='page'] {
+  background: rgb(255 255 255 / 0.18);
+}
+
 .main {
   flex: 1;
   width: min(72rem, 100% - 2rem);

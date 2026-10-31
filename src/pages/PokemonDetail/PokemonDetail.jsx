@@ -1,4 +1,5 @@
-import { Link, useLoaderData } from 'react-router';
+import { Link, useFetcher, useLoaderData } from 'react-router';
+import { getFavorites, setFavorite } from '../../api/favorites';
 import { getEvolutions, getPokemon, getSpecies } from '../../api/pokeapi';
 import TypeBadge from '../../components/TypeBadge/TypeBadge';
 import { TYPES } from '../../data/types';
@@ -18,11 +19,21 @@ const number = (id) => `#${String(id).padStart(4, '0')}`;
 export async function loader({ params }) {
     const pokemon = await getPokemon(params.name);
     const species = await getSpecies(pokemon);
-    return { pokemon, species, evolutions: await getEvolutions(species) };
+    return { pokemon, species, evolutions: await getEvolutions(species), favorite: getFavorites().includes(pokemon.id) };
+}
+
+// Heart button; the router reruns the loader afterwards, so `favorite` follows
+export async function action({ params, request }) {
+    const { id } = await getPokemon(params.name);
+    setFavorite(id, (await request.formData()).get('favorite') === 'true');
+    return null;
 }
 
 export default function PokemonDetail() {
-    const { pokemon, species, evolutions } = useLoaderData();
+    const { pokemon, species, evolutions, favorite: saved } = useLoaderData();
+    const fetcher = useFetcher();
+    // Show the new state while it is being saved
+    const favorite = fetcher.formData ? fetcher.formData.get('favorite') === 'true' : saved;
     const name = spanish(species.names)?.name ?? pokemon.name;
     const genus = spanish(species.genera)?.genus;
     // Flavor texts keep the line breaks of the game screen
@@ -41,6 +52,12 @@ export default function PokemonDetail() {
                     <p className={styles.types}>
                         {pokemon.types.map(({ type }) => <TypeBadge key={type.name} type={type.name} />)}
                     </p>
+                    {/* fetcher: saving adds no history entry and does not reload the page */}
+                    <fetcher.Form method="post">
+                        <button type="submit" name="favorite" value={String(!favorite)} aria-pressed={favorite} className={styles.favorite}>
+                            Favorito
+                        </button>
+                    </fetcher.Form>
                 </div>
                 <img
                     src={pokemon.sprites.other['official-artwork'].front_default ?? pokemon.sprites.front_default}

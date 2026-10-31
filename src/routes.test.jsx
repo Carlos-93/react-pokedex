@@ -43,7 +43,10 @@ function fakeFetch(url) {
 }
 
 beforeEach(() => vi.stubGlobal('fetch', vi.fn(async (url) => fakeFetch(url))));
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  localStorage.clear();
+});
 
 // Browser router, not memory: Search reads window.location
 function renderAt(url) {
@@ -146,6 +149,27 @@ test('detail shows Spanish texts, size, stats and the evolution chain', async ()
   const evolutions = within(screen.getByRole('region', { name: 'Evoluciones' })).getAllByRole('link');
   expect(evolutions.map((link) => link.getAttribute('href'))).toEqual(['/pokemon/172', '/pokemon/25', '/pokemon/26']);
   expect(evolutions[1]).toHaveAttribute('aria-current', 'page');
+});
+
+test('the heart on the detail page saves favorites for /favoritos', async () => {
+  localStorage.setItem('favorites', 'not json'); // broken storage counts as no favorites
+  const router = renderAt('/favoritos');
+  expect(await screen.findByText(/Aún no hay favoritos/)).toBeInTheDocument();
+
+  router.navigate('/pokemon/pikachu');
+  const heart = await screen.findByRole('button', { name: 'Favorito' });
+  expect(heart).toHaveAttribute('aria-pressed', 'false');
+  // on, off and on again: saved once, not twice
+  for (const ids of [[25], [], [25]]) {
+    fireEvent.click(heart);
+    await waitFor(() => expect(JSON.parse(localStorage.getItem('favorites'))).toEqual(ids));
+    await waitFor(() => expect(heart).toHaveAttribute('aria-pressed', String(ids.length > 0)));
+  }
+
+  fireEvent.click(screen.getByRole('link', { name: 'Favoritos' }));
+  expect(await screen.findByRole('heading', { level: 1, name: 'Favoritos' })).toBeInTheDocument();
+  expect(screen.getByText('1 Pokémon')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'pokemon-25' })).toBeInTheDocument();
 });
 
 test.each(['/pokemon/missingno', '/no/existe'])('%s shows the not found page inside the layout', async (url) => {
