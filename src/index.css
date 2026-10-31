@@ -1,3 +1,13 @@
+/* Self-hosted (public/fonts, OFL license): no request to Google. Variable font, latin subset covers Spanish */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/montserrat-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --bg: light-dark(#f3f4f8, #0f1117);
@@ -10,10 +20,9 @@
   --on-type: #1b1d25;
   --radius: 22px;
   --shadow: 0 10px 30px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.5));
-  --font-display: 'Fredoka', system-ui, sans-serif;
   /* Pokéball outline, used as a mask so each place gives it its own color */
   --pokeball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='8'%3E%3Cpath fill='black' stroke='none' d='M6.7 42a44 44 0 0 1 86.6 0H68.3a20 20 0 0 0-36.6 0z'/%3E%3Ccircle cx='50' cy='50' r='44'/%3E%3Cpath d='M6 50h26m36 0h26'/%3E%3Ccircle cx='50' cy='50' r='14'/%3E%3C/svg%3E");
-  font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
 }
 
@@ -38,7 +47,6 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.15;
 }

@@ -230,7 +230,6 @@
 }
 
 .evolution strong {
-  font-family: var(--font-display);
   font-weight: 600;
   text-transform: capitalize;
 }
