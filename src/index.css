@@ -1,14 +1,19 @@
 :root {
   color-scheme: light dark;
-  --bg: light-dark(#f5f6f8, #111318);
-  --surface: light-dark(#ffffff, #1b1e25);
-  --text: light-dark(#1c1e24, #e7e9ee);
-  --muted: light-dark(#5d6470, #9ba2ae);
-  --border: light-dark(#e3e6eb, #2b303a);
-  --accent: #e3350d;
-  --radius: 14px;
-  --shadow: 0 8px 24px light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.45));
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --bg: light-dark(#f3f4f8, #0f1117);
+  --surface: light-dark(#ffffff, #1a1d26);
+  --text: light-dark(#1b1d25, #eceef3);
+  --muted: light-dark(#5a6070, #a3aab7);
+  --border: light-dark(#e1e4eb, #2a2f3b);
+  --accent: #dc2f0b;
+  /* Type colored surfaces are always a light shade (see PokemonCard), so text on them is always dark */
+  --on-type: #1b1d25;
+  --radius: 22px;
+  --shadow: 0 10px 30px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.5));
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  /* Pokéball outline, used as a mask so each place gives it its own color */
+  --pokeball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='8'%3E%3Cpath fill='black' stroke='none' d='M6.7 42a44 44 0 0 1 86.6 0H68.3a20 20 0 0 0-36.6 0z'/%3E%3Ccircle cx='50' cy='50' r='44'/%3E%3Cpath d='M6 50h26m36 0h26'/%3E%3Ccircle cx='50' cy='50' r='14'/%3E%3C/svg%3E");
+  font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
 }
 
@@ -30,6 +35,14 @@ body {
   min-height: 100dvh;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -48,4 +61,12 @@ a {
 /* Page headings only get focus from route changes (see Layout); they are not interactive */
 [tabindex='-1']:focus {
   outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0s !important;
+  }
 }

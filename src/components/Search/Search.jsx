@@ -27,7 +27,7 @@ export default function Search() {
 
     return (
         <form role="search" onSubmit={(event) => event.preventDefault()} className={styles.form}>
-            <input type="search" name="q" value={query} onChange={handleChange} aria-label="Buscar Pokémon por nombre o número" placeholder="Nombre o número" className={styles.input} />
+            <input type="search" name="q" value={query} onChange={handleChange} aria-label="Buscar Pokémon por nombre o número" placeholder="Buscar Pokémon por nombre o número" className={styles.input} />
         </form>
     );
 }

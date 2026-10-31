@@ -1,9 +1,36 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--surface) 40%, color-mix(in oklab, var(--accent) 14%, var(--surface)));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -3rem;
+  right: -3rem;
+  width: clamp(10rem, 30vw, 18rem);
+  aspect-ratio: 1;
+  background: var(--accent);
+  opacity: 0.12;
+  mask: var(--pokeball) center / contain no-repeat;
+  rotate: 20deg;
+}
+
 .title {
-  font-size: 1.75rem;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 700;
 }
 
 .total {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
   color: var(--muted);
 }
 
@@ -11,41 +38,84 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
 }
 
-/* Same tint as TypeBadge, bigger for touch; the active one gets a stronger tint and a ring */
 .chip {
-  padding: 0.3rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.9rem 0.35rem 0.7rem;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   text-decoration: none;
-  background: color-mix(in srgb, var(--type-color, var(--muted)) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--type-color, var(--muted)) 50%, transparent);
+  white-space: nowrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 999px;
+  transition: border-color 0.2s;
+}
+
+.chip::before {
+  content: '';
+  width: 0.65rem;
+  aspect-ratio: 1;
+  background: var(--type-color, var(--accent));
+  border-radius: 50%;
 }
 
 .chip:hover {
-  border-color: var(--type-color, var(--muted));
+  border-color: var(--type-color, var(--accent));
 }
 
+/* Same dark shade as TypeBadge, so white text keeps its contrast */
 .chip[aria-current='true'] {
-  background: color-mix(in srgb, var(--type-color, var(--muted)) 45%, transparent);
-  border-color: var(--type-color, var(--muted));
-  box-shadow: 0 0 0 1px var(--type-color, var(--muted));
+  color: #fff;
+  background: var(--type-color, var(--accent));
+  background: oklch(from var(--type-color, var(--accent)) min(l, 0.52) c h);
+  border-color: transparent;
+}
+
+.chip[aria-current='true']::before {
+  background: #fff;
+}
+
+/* On phones 19 chips take five rows; one scrollable row keeps the cards in view.
+   The fade hints there is more, the end padding lets the last chip leave the fade */
+@media (width < 40rem) {
+  .filters {
+    flex-wrap: nowrap;
+    padding-block: 0.25rem;
+    padding-inline-end: 3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
+  }
 }
 
 .empty {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
   padding-block: 3rem;
+  font-weight: 600;
   text-align: center;
   color: var(--muted);
 }
 
+.empty::before {
+  content: '';
+  width: 4rem;
+  aspect-ratio: 1;
+  background: currentColor;
+  opacity: 0.4;
+  mask: var(--pokeball) center / contain no-repeat;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr));
+  gap: clamp(0.75rem, 2vw, 1.25rem);
   padding: 0;
   list-style: none;
 }
@@ -56,17 +126,19 @@
   justify-content: space-between;
   gap: 1rem;
   margin-top: 2rem;
+  font-weight: 600;
   color: var(--muted);
 }
 
 .pagination a {
   padding: 0.5rem 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   text-decoration: none;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
+  transition: border-color 0.2s;
 }
 
 .pagination a:hover {

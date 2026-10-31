@@ -39,3 +39,19 @@ export async function getPokedex() {
 }
 
 export const getPokemon = (name) => getJSON(`/pokemon/${encodeURIComponent(name.toLowerCase())}`);
+
+// Species and evolution chain come as full URLs inside other responses
+const getUrl = (url) => getJSON(url.slice(API.length));
+
+export const getSpecies = (pokemon) => getUrl(pokemon.species.url);
+
+// Evolution tree flattened by stage: [[eevee], [vaporeon, jolteon, ...]]
+export async function getEvolutions(species) {
+  const { chain } = await getUrl(species.evolution_chain.url);
+  const stages = [];
+  (function add(node, depth) {
+    (stages[depth] ??= []).push({ id: idFromUrl(node.species.url), name: node.species.name });
+    node.evolves_to.forEach((next) => add(next, depth + 1));
+  })(chain, 0);
+  return stages;
+}

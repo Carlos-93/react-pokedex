@@ -32,17 +32,19 @@ export default function Home() {
 
     return (
         <>
-            <h1 className={styles.title} tabIndex={-1}>Pokédex Nacional</h1>
-            <p className={styles.total} aria-live="polite">{total} Pokémon</p>
+            <div className={styles.hero}>
+                <h1 className={styles.title} tabIndex={-1}>Pokédex Nacional</h1>
+                <p className={styles.total} aria-live="polite">{total} Pokémon</p>
 
-            <nav className={styles.filters} aria-label="Filtrar por tipo">
-                <Link to={urlWith('type', null)} aria-current={!type} className={styles.chip}>Todos</Link>
-                {Object.entries(TYPES).map(([key, { label, color }]) => (
-                    <Link key={key} to={urlWith('type', key)} aria-current={key === type} className={styles.chip} style={{ '--type-color': color }}>
-                        {label}
-                    </Link>
-                ))}
-            </nav>
+                <nav className={styles.filters} aria-label="Filtrar por tipo">
+                    <Link to={urlWith('type', null)} aria-current={!type} className={styles.chip}>Todos</Link>
+                    {Object.entries(TYPES).map(([key, { label, color }]) => (
+                        <Link key={key} to={urlWith('type', key)} aria-current={key === type} className={styles.chip} style={{ '--type-color': color }}>
+                            {label}
+                        </Link>
+                    ))}
+                </nav>
+            </div>
 
             {pokemon.length > 0 ? (
                 <ul className={styles.grid}>
