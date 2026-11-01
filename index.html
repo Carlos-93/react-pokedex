@@ -6,6 +6,10 @@
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#dc2f0b" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    try { document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem('color-scheme') ?? 'light dark'; } catch { }
+  </script>
   <meta name="description" content="Pokédex en React con datos de PokeAPI" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />

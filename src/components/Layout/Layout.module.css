@@ -6,7 +6,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  /* Narrower on small phones, so logo and Favoritos still share the first row at 320px */
   gap: 0.75rem clamp(0.75rem, 4vw - 0.5rem, 1.5rem);
   padding: 0.75rem var(--gutter);
   color: #fff;
@@ -14,7 +13,6 @@
   box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
 }
 
-/* The default accent ring would not show on the red header */
 .header :focus-visible {
   outline-color: #fff;
 }
@@ -42,7 +40,6 @@
   rotate: 1turn;
 }
 
-/* Pushed right next to the search box; on phones the search wraps below */
 .favorites {
   display: flex;
   align-items: center;
@@ -69,7 +66,51 @@
   background: rgb(255 255 255 / 0.18);
 }
 
-/* Bottom space is larger: the footer's Pokéball sticks up about 1.4rem into it */
+.theme {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  aspect-ratio: 1;
+  padding: 0;
+  background: radial-gradient(circle, light-dark(rgb(217 119 6 / 0.14), rgb(196 181 253 / 0.14)) 30%, transparent 70%) var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: scale 0.2s, border-color 0.2s;
+}
+
+.theme:active {
+  scale: 0.92;
+}
+
+.theme::before,
+.theme::after {
+  content: '';
+  grid-area: 1 / 1;
+  width: 1.4rem;
+  aspect-ratio: 1;
+  background: #d97706;
+  mask: var(--sun) center / contain no-repeat;
+  opacity: calc(1 - var(--dark));
+  rotate: calc(var(--dark) * 90deg);
+  scale: calc(1 - var(--dark) / 2);
+  transition: opacity 0.3s, rotate 0.5s, scale 0.5s, transform 0.3s;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme::after {
+  background: #c4b5fd;
+  mask-image: var(--moon);
+  opacity: var(--dark);
+  rotate: calc((var(--dark) - 1) * 90deg);
+  scale: calc(0.5 + var(--dark) / 2);
+}
+
 .main {
   flex: 1;
   padding: 1.5rem var(--gutter) 4.5rem;
@@ -78,4 +119,21 @@
 
 .main[aria-busy='true'] {
   opacity: 0.6;
+}
+
+/* Responsive styles */
+
+@media (hover: hover) {
+  .theme:hover {
+    scale: 1.08;
+    border-color: light-dark(#d97706, #c4b5fd);
+  }
+
+  .theme:hover::before {
+    transform: rotate(45deg);
+  }
+
+  .theme:hover::after {
+    transform: rotate(-20deg);
+  }
 }

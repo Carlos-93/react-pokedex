@@ -1,4 +1,3 @@
-/* Light shade of the primary type color: always light enough for the dark --on-type text */
 .card {
   container-type: inline-size;
   position: relative;
@@ -12,16 +11,13 @@
   color: var(--on-type);
   text-decoration: none;
   background: var(--type-color, var(--surface));
-  background: linear-gradient(
-    150deg,
-    oklch(from var(--type-color, #a8a8a8) clamp(0.86, l, 0.94) c h),
-    oklch(from var(--type-color, #a8a8a8) clamp(0.76, l, 0.86) c h)
-  );
+  background: linear-gradient(150deg,
+      oklch(from var(--type-color, #a8a8a8) clamp(0.86, l, 0.94) c h),
+      oklch(from var(--type-color, #a8a8a8) clamp(0.76, l, 0.86) c h));
   border-radius: var(--radius);
   transition: translate 0.25s, box-shadow 0.25s;
 }
 
-/* Pokéball watermark behind the artwork */
 .card::before {
   content: '';
   position: absolute;
@@ -47,7 +43,6 @@
   opacity: 0.5;
 }
 
-/* Scales with the card, so the longest names (Brambleghast, Crabominable) stay on one line on small phones */
 .name {
   font-size: min(1.2rem, 13.5cqi);
   text-transform: capitalize;

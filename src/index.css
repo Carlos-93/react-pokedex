@@ -1,4 +1,3 @@
-/* Self-hosted (public/fonts, OFL license): no request to Google. Variable font, latin subset covers Spanish */
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
@@ -10,26 +9,58 @@
 
 :root {
   color-scheme: light dark;
+  --dark: 0;
   --bg: light-dark(#f3f4f8, #0f1117);
   --surface: light-dark(#ffffff, #1a1d26);
   --text: light-dark(#1b1d25, #eceef3);
   --muted: light-dark(#5a6070, #a3aab7);
   --border: light-dark(#e1e4eb, #2a2f3b);
   --accent: #dc2f0b;
-  /* Type colored surfaces are always a light shade (see PokemonCard), so text on them is always dark */
   --on-type: #1b1d25;
   --radius: 22px;
-  /* Side space of header, main and footer: content capped at 90rem, centered and lined up */
   --gutter: max(1rem, (100% - 90rem) / 2);
   --shadow: 0 10px 30px light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.5));
-  /* Pokéball outline, used as a mask so each place gives it its own color */
   --pokeball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='8'%3E%3Cpath fill='black' stroke='none' d='M6.7 42a44 44 0 0 1 86.6 0H68.3a20 20 0 0 0-36.6 0z'/%3E%3Ccircle cx='50' cy='50' r='44'/%3E%3Cpath d='M6 50h26m36 0h26'/%3E%3Ccircle cx='50' cy='50' r='14'/%3E%3C/svg%3E");
-  /* Heart, filled and outlined (favorites) */
   --heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E");
   --heart-outline: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E");
+  --sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3Cpath d='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42'/%3E%3C/svg%3E");
+  --moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E%3C/svg%3E");
   --volume: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 5 6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07'/%3E%3C/svg%3E");
   font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dark: 1;
+  }
+}
+
+:root:has(> head > meta[name='color-scheme'][content='light']) {
+  color-scheme: light;
+  --dark: 0;
+}
+
+:root:has(> head > meta[name='color-scheme'][content='dark']) {
+  color-scheme: dark;
+  --dark: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cfilter id='blur'%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3C/filter%3E%3Ccircle cx='40' cy='40' r='18' filter='url(%23blur)'/%3E%3C/svg%3E") bottom right / 0 no-repeat;
+    animation: theme-reveal 1s both;
+  }
+}
+
+@keyframes theme-reveal {
+  to {
+    mask-size: 350vmax;
+  }
 }
 
 *,
@@ -72,7 +103,6 @@ a {
   outline-offset: 2px;
 }
 
-/* Page headings only get focus from route changes (see Layout); they are not interactive */
 [tabindex='-1']:focus {
   outline: none;
 }

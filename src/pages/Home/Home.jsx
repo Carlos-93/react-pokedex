@@ -6,7 +6,7 @@ import PokemonCard from '../../components/PokemonCard/PokemonCard';
 import { getFavorites } from '../../api/favorites';
 import { getPokedex } from '../../api/pokeapi';
 // Data
-import { TYPES } from '../../data/types';
+import { TYPES } from '../../data/constants';
 // Styles
 import styles from './Home.module.css';
 

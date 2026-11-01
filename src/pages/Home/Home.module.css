@@ -68,7 +68,6 @@
   border-color: var(--type-color, var(--accent));
 }
 
-/* Same dark shade as TypeBadge, so white text keeps its contrast */
 .chip[aria-current='true'] {
   color: #fff;
   background: var(--type-color, var(--accent));
@@ -78,19 +77,6 @@
 
 .chip[aria-current='true']::before {
   background: #fff;
-}
-
-/* On phones 19 chips take five rows; one scrollable row keeps the cards in view.
-   The fade hints there is more, the end padding lets the last chip leave the fade */
-@media (width < 40rem) {
-  .filters {
-    flex-wrap: nowrap;
-    padding-block: 0.25rem;
-    padding-inline-end: 3rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
-  }
 }
 
 .empty {
@@ -112,7 +98,6 @@
   mask: var(--pokeball) center / contain no-repeat;
 }
 
-/* Never fewer than two columns, so a card does not fill a small phone */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min((100% - 0.75rem) / 2, 12rem), 1fr));
@@ -121,8 +106,6 @@
   list-style: none;
 }
 
-/* Phones: the numbers get a row of their own, Anterior and Siguiente share the next one as two wide buttons,
-   together about as wide as the numbers. From 48rem it is one centered group, with the numbers always in the middle */
 .pagination {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 10rem));
@@ -132,25 +115,10 @@
   margin-top: 2.5rem;
 }
 
-@media (width >= 48rem) {
-  .pagination {
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-areas: 'prev pages next' 'range range range';
-  }
-
-  .prev {
-    justify-self: end;
-  }
-
-  .next {
-    justify-self: start;
-  }
-}
 
 .pages {
   grid-area: pages;
   justify-self: center;
-  /* Without it the group keeps the width of its seven buttons and sticks out of a 320px phone */
   max-width: 100%;
   display: flex;
   align-items: center;
@@ -161,8 +129,6 @@
   border-radius: 999px;
 }
 
-/* Round buttons that shrink a little together when a small phone has no room for all seven.
-   Width, not flex-basis: the grid column sizes the group from the width of its items */
 .pages a,
 .pages span {
   width: 2.75rem;
@@ -222,7 +188,6 @@
   grid-area: next;
 }
 
-/* Chevrons: a square with two borders, turned 45° */
 .prev::before,
 .next::after {
   content: '';
@@ -266,4 +231,32 @@ span.next {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
+}
+
+/* Responsive styles */
+
+@media (width < 40rem) {
+  .filters {
+    flex-wrap: nowrap;
+    padding-block: 0.25rem;
+    padding-inline-end: 3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
+  }
+}
+
+@media (width >=48rem) {
+  .pagination {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: 'prev pages next' 'range range range';
+  }
+
+  .prev {
+    justify-self: end;
+  }
+
+  .next {
+    justify-self: start;
+  }
 }

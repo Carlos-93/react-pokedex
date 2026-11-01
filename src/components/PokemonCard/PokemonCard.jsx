@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 // Data
-import { TYPES } from '../../data/types';
+import { TYPES } from '../../data/constants';
 // Components
 import TypeBadge from '../TypeBadge/TypeBadge';
 // Styles

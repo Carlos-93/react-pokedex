@@ -1,4 +1,4 @@
-import { TYPES } from '../data/types';
+import { TYPES } from '../data/constants';
 
 const API = 'https://pokeapi.co/api/v2';
 const cache = new Map();

@@ -7,13 +7,13 @@ import { getFavorites, setFavorite } from '../../api/favorites';
 import Loading from '../../components/Loading/Loading';
 import TypeBadge from '../../components/TypeBadge/TypeBadge';
 // Data
-import { TYPES } from '../../data/types';
+import { DETAIL_LABELS, TYPES, UNTRANSLATED } from '../../data/constants';
 // Styles
 import styles from './PokemonDetail.module.css';
 
 // Every text shown comes from PokeAPI, in Spanish when it has a translation and as the API name when it does not.
 // Form names try English before the API name: many forms (Gigamax, Pikachu Rock Star) have no Spanish one.
-// Only the labels next to each value are written here.
+// Only the labels next to each value are written here, and in data/constants for the evolution conditions.
 const MAX_STAT = 255;
 
 // Newest Spanish entry of a localized list; some recent Pokémon have none
@@ -89,20 +89,6 @@ async function getDefenses(pokemon) {
     const groups = Object.groupBy(Object.keys(factors).filter((type) => factors[type] !== 1), (type) => factors[type]);
     return Object.entries(groups).map(([factor, types]) => [Number(factor), types]).sort((a, b) => b[0] - a[0]);
 }
-
-const DETAIL_LABELS = {
-    version_group: 'Juego', trigger: 'Método', min_level: 'Nivel', item: 'Objeto', held_item: 'Objeto equipado',
-    known_move: 'Movimiento aprendido', known_move_type: 'Tipo de movimiento aprendido', used_move: 'Movimiento usado',
-    min_move_count: 'Veces', min_happiness: 'Amistad mínima', min_affection: 'Afecto mínimo', min_beauty: 'Belleza mínima',
-    min_damage_taken: 'Daño mínimo recibido', min_steps: 'Pasos', location: 'Lugar', region: 'Región',
-    party_species: 'Pokémon en el equipo', party_type: 'Tipo en el equipo', trade_species: 'A cambio de', gender: 'Sexo',
-    time_of_day: 'Momento del día', relative_physical_stats: 'Ataque frente a Defensa', allowed_natures: 'Naturalezas',
-    near_special_rock: 'Cerca de una roca especial', needs_overworld_rain: 'Lluvia', turn_upside_down: 'Consola boca abajo',
-    needs_multiplayer: 'Multijugador', condition_expression: 'Condición',
-    required_pokemon_form: 'Forma requerida', evolved_pokemon_form: 'Forma resultante',
-};
-// PokeAPI has no Spanish names for these, so they are not fetched
-const UNTRANSLATED = new Set(['trigger', 'location', 'region', 'required_pokemon_form', 'evolved_pokemon_form']);
 
 async function detailValue(key, value) {
     if (value === true) return 'Sí';

@@ -1,4 +1,3 @@
-/* The red top edge is a Pokéball's middle line, with its button in the center */
 .footer {
   position: relative;
   display: flex;
@@ -7,6 +6,7 @@
   justify-content: space-between;
   gap: 1rem 2rem;
   padding: 2.5rem var(--gutter) 2rem;
+  padding-inline-end: max(var(--gutter), 4.75rem);
   font-size: 0.9rem;
   color: var(--muted);
   background: var(--surface);
@@ -44,10 +44,13 @@
   mask: var(--pokeball) center / contain no-repeat;
 }
 
-/* Phones: one column under the centered button, so the text follows its axis */
+/* Responsive styles */
+
 @media (width < 40rem) {
+
   .footer {
     flex-direction: column;
+    padding-inline-end: var(--gutter);
     text-align: center;
   }
 

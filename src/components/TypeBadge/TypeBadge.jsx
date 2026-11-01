@@ -1,4 +1,4 @@
-import { TYPES } from '../../data/types';
+import { TYPES } from '../../data/constants';
 // Styles
 import styles from './TypeBadge.module.css';
 

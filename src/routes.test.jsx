@@ -347,3 +347,22 @@ test('a form name that already names the Pokémon replaces it, in English when t
   renderAt('/pokemon/pikachu-rock-star');
   expect(await screen.findByRole('heading', { level: 1, name: 'Pikachu Rock Star' })).toBeInTheDocument();
 });
+
+test('the theme button stores a theme only while it differs from the system one', async () => {
+  document.head.innerHTML = '<meta name="color-scheme" content="light dark">';
+  const meta = document.head.firstChild;
+  vi.stubGlobal('matchMedia', () => ({ matches: false })); // system theme: light
+  renderAt('/');
+  const button = await screen.findByRole('button', { name: 'Cambiar entre tema claro y oscuro' });
+
+  fireEvent.click(button);
+  expect([meta.content, localStorage.getItem('color-scheme')]).toEqual(['dark', 'dark']);
+  fireEvent.click(button);
+  expect([meta.content, localStorage.getItem('color-scheme')]).toEqual(['light dark', null]);
+
+  // dark stored while the system was light, then the system turned dark: one click goes light, and stays light
+  meta.content = 'dark';
+  vi.stubGlobal('matchMedia', () => ({ matches: true }));
+  fireEvent.click(button);
+  expect([meta.content, localStorage.getItem('color-scheme')]).toEqual(['light', 'light']);
+});
